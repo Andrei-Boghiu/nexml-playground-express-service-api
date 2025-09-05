@@ -1,17 +1,11 @@
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../configs/env.config";
 import { Request, Response, NextFunction } from "express";
+import type { UserJwtPayload } from "../types/type";
 
-export interface JwtPayload {
-  userId: string;
-  iat?: number;
-  exp?: number;
-}
-
-// Extend Express Request to include `user`
 declare module "express-serve-static-core" {
   interface Request {
-    user?: { id: string };
+    user?: { id: string; email: string };
   }
 }
 
@@ -26,8 +20,8 @@ export default function authMiddleware(req: Request, res: Response, next: NextFu
   }
 
   try {
-    const decoded = jwt.verify(accessToken, JWT_SECRET) as JwtPayload;
-    req.user = { id: decoded.userId };
+    const decoded = jwt.verify(accessToken, JWT_SECRET) as UserJwtPayload;
+    req.user = { id: decoded.userId, email: decoded.email };
     return next();
   } catch {
     return res.status(401).json({ error: "Invalid access token" });
