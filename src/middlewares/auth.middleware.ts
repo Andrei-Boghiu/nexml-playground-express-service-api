@@ -4,7 +4,6 @@ import { Request, Response, NextFunction } from "express";
 
 export interface JwtPayload {
   userId: string;
-  email: string;
   iat?: number;
   exp?: number;
 }
@@ -12,16 +11,15 @@ export interface JwtPayload {
 // Extend Express Request to include `user`
 declare module "express-serve-static-core" {
   interface Request {
-    user?: { id: string; email: string };
+    user?: { id: string };
   }
 }
 
 export default function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers["authorization"] || req.headers["Authorization"];
+  const tokenString: string = typeof authHeader === "string" ? authHeader : "";
 
-  const headerStr = typeof authHeader === "string" ? authHeader : "";
-  const match = headerStr.match(/^Bearer\s+(.+)$/i);
-  const accessToken = match?.[1];
+  const accessToken = tokenString?.split("Bearer ")[1];
 
   if (!accessToken) {
     return res.status(401).json({ error: "Unauthorized! Missing access token" });
@@ -29,7 +27,7 @@ export default function authMiddleware(req: Request, res: Response, next: NextFu
 
   try {
     const decoded = jwt.verify(accessToken, JWT_SECRET) as JwtPayload;
-    req.user = { id: decoded.userId, email: decoded.email };
+    req.user = { id: decoded.userId };
     return next();
   } catch {
     return res.status(401).json({ error: "Invalid access token" });
