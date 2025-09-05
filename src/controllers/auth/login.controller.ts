@@ -8,7 +8,7 @@ import { DUMMY_HASH } from "../../configs/auth.config";
 export default async function loginController(req: Request, res: Response) {
   const { email, password } = loginSchema.parse(req.body);
 
-  const user = await prisma.user.findUnique({
+  const user = await prisma.user.findFirst({
     where: { email, deletedAt: null },
   });
 
