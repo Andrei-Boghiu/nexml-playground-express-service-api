@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
 
-// import authRoutes from "./routes/auth.route";
+import authRoutes from "./routes/auth.route";
 // import userRoutes from "./routes/user.route";
 
 import rateLimiter from "./middlewares/rateLimiter.middleware";
@@ -21,7 +21,7 @@ app.use(helmet());
 app.use(express.json());
 
 // routes
-// app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 // app.use("/api/users", userRoutes);
 
 app.get("/", (_req: Request, res: Response) => {

@@ -17,13 +17,11 @@ declare module "express-serve-static-core" {
 }
 
 export default function authMiddleware(req: Request, res: Response, next: NextFunction) {
-  let authHeader = req.headers["authorization"] || req.headers["Authorization"];
+  const authHeader = req.headers["authorization"] || req.headers["Authorization"];
 
-  if (Array.isArray(authHeader)) {
-    authHeader = authHeader[0];
-  }
-
-  const accessToken = authHeader?.split("Bearer ")[1];
+  const headerStr = typeof authHeader === "string" ? authHeader : "";
+  const match = headerStr.match(/^Bearer\s+(.+)$/i);
+  const accessToken = match?.[1];
 
   if (!accessToken) {
     return res.status(401).json({ error: "Unauthorized! Missing access token" });

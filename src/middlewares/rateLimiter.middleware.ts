@@ -12,6 +12,8 @@ const DEV_MAX = 300;
 const rateLimiter: RateLimitRequestHandler = rateLimit({
   windowMs: IS_PROD ? PROD_WINDOW : DEV_WINDOW,
   max: IS_PROD ? PROD_MAX : DEV_MAX,
+  legacyHeaders: false,
+  standardHeaders: true,
   skip: (req: Request) => !IS_PROD && getIsPostman(req), // skip for Postman in non-prod
   message: {
     error: "Too many requests, please try again later.",

@@ -16,7 +16,7 @@ export default async function profileController(req: Request, res: Response) {
 
     return res.status(200).json({ email: "test@test.com" });
   } catch (error) {
-    res.send(500).json({ error: "server error" });
+    res.status(500).json({ error: "server error" });
     // return handleError(error, res, "profile.controller");
   }
 }
