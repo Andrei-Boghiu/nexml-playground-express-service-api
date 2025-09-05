@@ -43,19 +43,48 @@ enum Qualification {
 model User {
     id           String    @id @default(uuid())
     email        String    @unique
+    password     String
     firstName    String?
     middleName   String?
     lastName     String?
     organization String?
     accessReason String?
+    accessStatus Boolean   @default(true)
     role         UserRole  @default(USER)
     createdAt    DateTime  @default(now())
     updatedAt    DateTime  @updatedAt
     deletedAt    DateTime? // NULL = active
 
     // Relations
-    limits   UserLimits?
-    archives CvArchive[]
+    logs          Log[]
+    refreshTokens RefreshToken[]
+    limits        UserLimits?
+    archives      CvArchive[]
+}
+
+model Log {
+    id        String  @id @default(uuid())
+    userId    String
+    action    String // e.g. "CREATE_TASK", "UPDATE_PROJECT", "DELETE_COMMENT"
+    entity    String // Entity type (e.g. "Task", "Project", "Comment")
+    entityId  String // ID of the affected entity
+    message   String? @db.Text // Optional descriptive message
+    userAgent String? // Browser/device info
+    metadata  Json? // Flexible field to store extra contextual data
+    tag       String? // Optional: custom label (e.g., "security", "system")
+
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model RefreshToken {
+    id        String   @id @default(uuid())
+    userId    String
+    token     String   @unique
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // USER LIMITS: Per-user custom trial limits
