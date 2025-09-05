@@ -1,22 +1,15 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma/prisma.config";
-// import handleError from "../../utils/handleError.util";
 
 export default async function profileController(req: Request, res: Response) {
-  try {
-    // const userId = req.user!.id;
+  const userId = req.user?.id;
 
-    // const user = await prisma.user.findUnique({
-    //   where: { id: userId },
-    // });
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    omit: { password: true, deletedAt: true, updatedAt: true, createdAt: true },
+  });
 
-    // if (!user) {
-    //   return res.status(400).json({ error: "Invalid request" });
-    // }
+  if (!user) return res.status(404).json({ error: "User not found" });
 
-    return res.status(200).json({ email: "test@test.com" });
-  } catch (error) {
-    res.status(500).json({ error: "server error" });
-    // return handleError(error, res, "profile.controller");
-  }
+  return res.status(200).json(user);
 }

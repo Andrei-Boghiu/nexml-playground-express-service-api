@@ -1,16 +1,20 @@
 import type { Request, Response } from "express";
-import bcrypt from "bcrypt";
 import prisma from "../../prisma/prisma.config";
+import bcrypt from "bcrypt";
 import { loginSchema } from "../../validators/auth.validator";
-import loginService from "../../services/auth/login.service";
 import { DUMMY_HASH } from "../../configs/auth.config";
+import loginService from "../../services/auth/login.service";
 
-export default async function loginController(req: Request, res: Response) {
+export default async function reactivateController(req: Request, res: Response) {
   const { email, password } = loginSchema.parse(req.body);
 
-  const user = await prisma.user.findFirst({
-    where: { email, deletedAt: null },
+  const user = await prisma.user.findUnique({
+    where: { email },
   });
+
+  if (!user || !user.deletedAt) {
+    return res.status(404).json({ error: "No inactive account found for this email" });
+  }
 
   // Use DUMMY_HASH to prevent timing attacks when user does not exist
   const hashedPassword = user?.password || DUMMY_HASH;
@@ -25,6 +29,11 @@ export default async function loginController(req: Request, res: Response) {
     return res.status(401).json({ error: "Invalid email or password" });
   }
 
+  await prisma.user.update({
+    where: { email },
+    data: { deletedAt: null },
+  });
+
   const { accessToken, refreshToken } = await loginService(user);
 
   res.setHeader("x-access-token", accessToken);
@@ -32,5 +41,8 @@ export default async function loginController(req: Request, res: Response) {
 
   const { password: _omitted, ...publicUser } = user;
 
-  return res.status(201).json(publicUser);
+  return res.status(201).json({
+    message: "Account successfully reactivated",
+    user: publicUser,
+  });
 }
