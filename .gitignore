@@ -16,7 +16,7 @@ prisma/dev.db
 prisma/dev.db-journal
 
 # will have many migrations during development, thus I ignore migrations for now
-prisma/migrations 
+src/prisma/migrations 
 
 # OS-specific
 .DS_Store

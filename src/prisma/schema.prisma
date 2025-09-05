@@ -1,0 +1,133 @@
+// ============================================
+// PLAYGROUND DATABASE SCHEMA (Prisma)
+// ============================================
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+    USER
+    ADMIN
+    DEV
+}
+
+enum CvState {
+    NOT_ANALYZED
+    IN_PROGRESS
+    ANALYZED
+    FAILED
+    REJECTED
+}
+
+enum Qualification {
+    UNDER_QUALIFIED
+    QUALIFIED
+    OVERQUALIFIED
+}
+
+// ============================================
+// MODELS
+// ============================================
+
+// USERS: Soft delete enabled via `deletedAt`
+model User {
+    id           String    @id @default(uuid())
+    email        String    @unique
+    firstName    String?
+    middleName   String?
+    lastName     String?
+    organization String?
+    accessReason String?
+    role         UserRole  @default(USER)
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+    deletedAt    DateTime? // NULL = active
+
+    // Relations
+    limits   UserLimits?
+    archives CvArchive[]
+}
+
+// USER LIMITS: Per-user custom trial limits
+model UserLimits {
+    id               String   @id @default(uuid())
+    userId           String   @unique
+    maxArchives      Int      @default(5)
+    maxCvsPerArchive Int      @default(100)
+    maxPolicies      Int      @default(10)
+    maxJobListings   Int      @default(10)
+    maxInstructions  Int      @default(10)
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// CV ARCHIVES: Collection of CVs per user
+model CvArchive {
+    id          String   @id @default(uuid())
+    userId      String
+    name        String
+    description String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    cvs  Cv[]
+}
+
+// CVS: Individual CVs analyzed by AI
+model Cv {
+    id            String         @id @default(uuid())
+    archiveId     String
+    fileUrl       String
+    state         CvState        @default(NOT_ANALYZED)
+    candidateName String?
+    qualification Qualification?
+    score         Int?           @db.Integer
+    reasoning     String?
+    aiModel       String?
+    metadata      Json?
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
+
+    // Relations
+    archive CvArchive @relation(fields: [archiveId], references: [id], onDelete: Cascade)
+}
+
+model JobListing {
+    id          String   @id @default(uuid())
+    position    String
+    department  String?
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+model Policy {
+    id        String   @id @default(uuid())
+    name      String
+    content   String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Instruction {
+    id        String   @id @default(uuid())
+    name      String
+    content   String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
