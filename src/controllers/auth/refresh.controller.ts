@@ -21,7 +21,9 @@ export default async function refreshController(req: Request, res: Response) {
       return res.status(401).json({ message: "Invalid refresh token" });
     }
 
-    const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+    const user = await prisma.user.findFirst({
+      where: { id: decoded.userId, deletedAt: null, accessStatus: true },
+    });
     if (!user) return res.status(401).json({ message: "Invalid refresh token" });
 
     // Rotate tokens
