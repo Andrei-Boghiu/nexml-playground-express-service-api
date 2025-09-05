@@ -6,7 +6,8 @@ import type { UserJwtPayload } from "../../types/type";
 import type { Request, Response } from "express";
 
 export default async function refreshController(req: Request, res: Response) {
-  const refreshToken = req.body?.refreshToken;
+  const authHeader = req.headers["authorization"] || req.headers["Authorization"];
+  const refreshToken: string = typeof authHeader === "string" ? authHeader : "";
 
   if (!refreshToken) return res.status(401).json({ message: "Refresh token missing" });
 
@@ -37,7 +38,10 @@ export default async function refreshController(req: Request, res: Response) {
       data: { token: newRefreshToken },
     });
 
-    return res.status(200).json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
+    res.setHeader("x-access-token", newAccessToken);
+    res.setHeader("x-refresh-token", newRefreshToken);
+
+    return res.status(200).send();
   } catch (err) {
     return res.status(401).json({ message: "Invalid or expired refresh token" });
   }
