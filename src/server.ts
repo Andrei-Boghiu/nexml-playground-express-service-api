@@ -10,6 +10,7 @@ import loggerMiddleware from "./middlewares/logger.middleware";
 
 import corsConfig from "./configs/cors.config";
 import fallbackHandler from "./utils/fallbackHandler.util";
+import errorHandler from "./middlewares/errorHandler.middleware";
 
 const app = express();
 
@@ -30,5 +31,7 @@ app.get("/", (_req: Request, res: Response) => {
 
 // fallback route handler - 404
 app.use(fallbackHandler);
+
+app.use(errorHandler);
 
 export default app;
