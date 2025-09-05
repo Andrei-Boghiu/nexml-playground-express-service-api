@@ -1,0 +1,30 @@
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Keep npm/Node.js dependencies up to date
+  - package-ecosystem: "npm"
+    directory: "/" # Root of your project where package.json is located
+    schedule:
+      interval: "weekly" # Can be daily, weekly, or monthly
+    commit-message:
+      prefix: "chore"
+      include: "scope" # Adds package name to the commit message
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "automated"
+    reviewers:
+      - "Andrei-Boghiu"
+
+  # Keep GitHub Actions workflows up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+    labels:
+      - "ci"
+      - "automated"
