@@ -13,7 +13,7 @@ export default async function healthController(_req: Request, res: Response) {
   // Test database connectivity
   const dbStart = performance.now();
   try {
-    await prisma.$queryRaw`SELECT 1;`;
+    await prisma.$executeRaw`SELECT 1`;
     dbLatencyMs = Math.round(performance.now() - dbStart);
     dbStatus = "up";
   } catch (error) {
