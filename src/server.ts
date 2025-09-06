@@ -1,9 +1,10 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 
-import authRoutes from "./routes/auth.route";
 import _systemRoutes from "./routes/_system.route";
+import authRoutes from "./routes/auth.route";
+import usersRoutes from "./routes/user.route";
 
 import rateLimiter from "./middlewares/rateLimiter.middleware";
 import errorHandler from "./middlewares/errorHandler.middleware";
@@ -24,6 +25,7 @@ app.use(express.json());
 // routes
 app.use("/api/check", _systemRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", usersRoutes);
 
 // handlers
 app.use(fallbackHandler); // - 404

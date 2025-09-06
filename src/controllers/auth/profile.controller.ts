@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import prisma from "../../prisma/prisma.config";
 
 export default async function profileController(req: Request, res: Response) {
-  const userId = req.user?.id;
+  const userId = req.user!.id;
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
