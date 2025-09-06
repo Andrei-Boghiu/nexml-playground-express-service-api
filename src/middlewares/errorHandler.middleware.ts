@@ -18,8 +18,8 @@ export default function errorHandler(error: unknown, req: Request, res: Response
     shouldLogError = false;
     statusCode = 400;
     responsePayload = {
-      error: error.issues || error,
-      status: "Payload validation error",
+      status: "fail",
+      error: error.issues,
     };
   }
 
