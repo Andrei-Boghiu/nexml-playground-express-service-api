@@ -7,14 +7,15 @@ export default async function healthController(_req: Request, res: Response) {
   const timestamp = new Date().toISOString();
 
   let dbStatus: "up" | "down" = "down";
-  let dbLatencyMs = null;
+  let dbLatencyMs: number | null = null;
   const criticalIssues: string[] = [];
 
   // Test database connectivity
-  const dbStart = performance.now();
+  const dbStart = process.hrtime.bigint();
   try {
     await prisma.$executeRaw`SELECT 1`;
-    dbLatencyMs = Math.round(performance.now() - dbStart);
+    const dbEnd = process.hrtime.bigint();
+    dbLatencyMs = Number(dbEnd - dbStart) / 1_000_000; // convert nanoseconds to milliseconds
     dbStatus = "up";
   } catch (error) {
     dbStatus = "down";
