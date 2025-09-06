@@ -14,15 +14,7 @@ export default function errorLogger({ error, req, responsePayload, statusCode }:
           user: (req as any).user?.id ?? "anonymous",
         }
       : undefined,
-    error:
-      error instanceof Error
-        ? {
-            name: error.name,
-            message: error.message,
-            stack: error.stack,
-            ...(error as any),
-          }
-        : { message: String(error) },
+    error,
   };
 
   consoleLogError(logEntry);
