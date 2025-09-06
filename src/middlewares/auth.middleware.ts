@@ -2,10 +2,11 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../configs/env.config";
 import { Request, Response, NextFunction } from "express";
 import type { UserJwtPayload } from "../types/type";
+import type { UserRole } from "@prisma/client";
 
 declare module "express-serve-static-core" {
   interface Request {
-    user?: { id: string; email: string };
+    user: { id: string; email: string; role: UserRole };
   }
 }
 
@@ -21,7 +22,7 @@ export default function authMiddleware(req: Request, res: Response, next: NextFu
 
   try {
     const decoded = jwt.verify(accessToken, JWT_SECRET) as UserJwtPayload;
-    req.user = { id: decoded.userId, email: decoded.email };
+    req.user = { id: decoded.userId, email: decoded.email, role: decoded.role };
     return next();
   } catch {
     return res.status(401).json({ error: "Invalid access token" });
