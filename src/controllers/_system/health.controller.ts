@@ -45,7 +45,7 @@ export default async function healthController(_req: Request, res: Response) {
         },
       },
       cpu: {
-        frequencyMHz: os.cpus()[0].speed,
+        frequencyMHz: os.cpus()?.[0]?.speed ?? null,
         loadavg: os.loadavg().map((n) => Number(n.toFixed(2))),
       },
     },
