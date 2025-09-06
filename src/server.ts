@@ -22,7 +22,7 @@ app.use(helmet());
 app.use(express.json());
 
 // routes
-app.use("/api", _systemRoutes);
+app.use("/api/check", _systemRoutes);
 app.use("/api/auth", authRoutes);
 
 // handlers

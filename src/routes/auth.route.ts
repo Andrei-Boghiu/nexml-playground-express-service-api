@@ -16,6 +16,7 @@ router.post("/register", registerController);
 router.post("/login", loginController);
 router.post("/refresh", refreshController);
 router.post("/reactivate", reactivateController);
+
 // Protected routes
 router.use(authMiddleware);
 
