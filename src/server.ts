@@ -3,14 +3,14 @@ import cors from "cors";
 import helmet from "helmet";
 
 import authRoutes from "./routes/auth.route";
-// import userRoutes from "./routes/user.route";
+import _systemRoutes from "./routes/_system.route";
 
 import rateLimiter from "./middlewares/rateLimiter.middleware";
+import errorHandler from "./middlewares/errorHandler.middleware";
 import loggerMiddleware from "./middlewares/logger.middleware";
 
 import corsConfig from "./configs/cors.config";
 import fallbackHandler from "./utils/fallbackHandler.util";
-import errorHandler from "./middlewares/errorHandler.middleware";
 
 const app = express();
 
@@ -22,16 +22,11 @@ app.use(helmet());
 app.use(express.json());
 
 // routes
+app.use("/api", _systemRoutes);
 app.use("/api/auth", authRoutes);
-// app.use("/api/users", userRoutes);
 
-app.get("/", (_req: Request, res: Response) => {
-  res.send("hello there traveler");
-});
-
-// fallback route handler - 404
-app.use(fallbackHandler);
-
+// handlers
+app.use(fallbackHandler); // - 404
 app.use(errorHandler);
 
 export default app;
