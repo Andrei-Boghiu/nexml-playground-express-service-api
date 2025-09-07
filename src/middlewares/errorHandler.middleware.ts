@@ -25,6 +25,9 @@ export default function errorHandler(error: unknown, req: Request, res: Response
 
   // Prisma known request errors
   else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    const cause = error?.meta?.cause;
+    const modelName = error?.meta?.modelName;
+
     switch (error.code) {
       case "P2000":
         statusCode = 400;
@@ -36,9 +39,12 @@ export default function errorHandler(error: unknown, req: Request, res: Response
       case "P2001":
       case "P2025":
         statusCode = 404;
+        const defaultMsg = "The requested resource was not found.";
+        const msg = cause && modelName ? `${modelName} - ${cause}` : undefined;
+
         responsePayload = {
           status: "fail",
-          error: "The requested resource was not found.",
+          error: msg || defaultMsg,
         };
         break;
       case "P2002":
