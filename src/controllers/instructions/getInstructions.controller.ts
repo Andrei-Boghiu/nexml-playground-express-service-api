@@ -3,7 +3,7 @@ import prisma from "../../prisma/prisma.config";
 import { getPaginationParams } from "../../utils/pagination.util";
 import type { Prisma } from "@prisma/client";
 
-export default async function getJobListingsController(req: Request, res: Response) {
+export default async function getInstructionsController(req: Request, res: Response) {
   const userId = req.user.id;
 
   const pageStr = typeof req.query.page === "string" ? req.query.page : undefined;
@@ -11,17 +11,17 @@ export default async function getJobListingsController(req: Request, res: Respon
 
   const { page, limit, skip } = getPaginationParams(pageStr, limitStr);
 
-  const where: Prisma.JobListingWhereInput = { userId };
+  const where: Prisma.InstructionWhereInput = { userId };
 
   const [data, total] = await Promise.all([
-    prisma.jobListing.findMany({
+    prisma.instruction.findMany({
       where,
       orderBy: { createdAt: "desc" },
       omit: { userId: true },
       skip,
       take: limit,
     }),
-    prisma.jobListing.count({
+    prisma.instruction.count({
       where,
     }),
   ]);

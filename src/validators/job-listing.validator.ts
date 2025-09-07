@@ -8,4 +8,9 @@ export const createJobListingSchema = z
   })
   .strict();
 
-export const updateJobListingSchema = createJobListingSchema.partial();
+export const updateJobListingSchema = createJobListingSchema
+  .strict()
+  .partial()
+  .refine((data) => Object.keys(data).length > 0, {
+    error: "At least one field must be provided",
+  });
