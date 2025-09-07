@@ -16,7 +16,7 @@ export default async function getInstructionsController(req: Request, res: Respo
   const [data, total] = await Promise.all([
     prisma.instruction.findMany({
       where,
-      orderBy: { createdAt: "asc" },
+      orderBy: { createdAt: "desc" },
       omit: { userId: true },
       skip,
       take: limit,

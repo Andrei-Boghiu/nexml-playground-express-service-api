@@ -16,7 +16,7 @@ export default async function getJobListingsController(req: Request, res: Respon
   const [data, total] = await Promise.all([
     prisma.jobListing.findMany({
       where,
-      orderBy: { createdAt: "asc" },
+      orderBy: { createdAt: "desc" },
       omit: { userId: true },
       skip,
       take: limit,
