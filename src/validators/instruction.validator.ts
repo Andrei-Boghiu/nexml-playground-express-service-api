@@ -7,4 +7,9 @@ export const createInstructionSchema = z
   })
   .strict();
 
-export const updateInstructionSchema = createInstructionSchema.partial();
+export const updateInstructionSchema = createInstructionSchema
+  .strict()
+  .partial()
+  .refine((data) => Object.keys(data).length > 0, {
+    error: "At least one field must be provided",
+  });
