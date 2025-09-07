@@ -13,6 +13,16 @@ export default function errorHandler(error: unknown, req: Request, res: Response
     error: "Internal server error",
   };
 
+  // invalid payload/json body
+  if (error instanceof SyntaxError && "body" in error) {
+    shouldLogError = false;
+    statusCode = 400;
+    responsePayload = {
+      status: "fail",
+      error: "Invalid JSON payload",
+    };
+  }
+
   // Zod validation errors
   if (error instanceof ZodError) {
     shouldLogError = false;
