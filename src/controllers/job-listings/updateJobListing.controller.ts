@@ -12,10 +12,5 @@ export default async function updateJobListingController(req: Request, res: Resp
     data: userInput,
   });
 
-  if (!jobListing)
-    return res.status(404).json({
-      error: "Job listing not found",
-    });
-
   return res.status(200).json(jobListing);
 }
