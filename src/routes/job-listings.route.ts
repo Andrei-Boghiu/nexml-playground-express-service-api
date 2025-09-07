@@ -16,7 +16,7 @@ router.get("/", getJobListingsController);
 router.get("/:id", getJobListingByIdController);
 
 router.post("/", createJobListingController);
-router.patch("/", updateJobListingController);
+router.patch("/:id", updateJobListingController);
 router.delete("/:id", deleteJobListingController);
 
 export default router;

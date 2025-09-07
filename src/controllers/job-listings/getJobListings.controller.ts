@@ -13,7 +13,7 @@ export default async function getJobListingsController(req: Request, res: Respon
 
   const where: Prisma.JobListingWhereInput = { userId };
 
-  const [users, total] = await Promise.all([
+  const [data, total] = await Promise.all([
     prisma.jobListing.findMany({
       where,
       orderBy: { createdAt: "asc" },
@@ -27,7 +27,7 @@ export default async function getJobListingsController(req: Request, res: Respon
   ]);
 
   res.status(200).json({
-    data: users,
+    data,
     meta: {
       total,
       page,
