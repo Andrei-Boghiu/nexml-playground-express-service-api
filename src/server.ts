@@ -8,6 +8,7 @@ import usersRoutes from "./routes/user.route";
 import jobListingRoutes from "./routes/job-listings.route";
 import instructionRoutes from "./routes/instruction.route";
 import policyRoutes from "./routes/policy.route";
+import archiveRoutes from "./routes/archive.route";
 
 import rateLimiter from "./middlewares/rateLimiter.middleware";
 import errorHandler from "./middlewares/errorHandler.middleware";
@@ -32,6 +33,7 @@ app.use("/api/users", usersRoutes);
 app.use("/api/job-listings", jobListingRoutes);
 app.use("/api/instructions", instructionRoutes);
 app.use("/api/policies", policyRoutes);
+app.use("/api/archives", archiveRoutes);
 
 // handlers
 app.use(fallbackHandler); // - 404
