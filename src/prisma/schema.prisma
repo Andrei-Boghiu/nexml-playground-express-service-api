@@ -56,10 +56,13 @@ model User {
     deletedAt    DateTime? // NULL = active
 
     // Relations
-    logs          Log[]
-    refreshTokens RefreshToken[]
-    limits        UserLimits?
-    archives      CvArchive[]
+    Logs          Log[]
+    RefreshTokens RefreshToken[]
+    Limits        UserLimits?
+    Archives      CvArchive[]
+    JobListing    JobListing[]
+    Policy        Policy[]
+    Instruction   Instruction[]
 }
 
 model Log {
@@ -99,7 +102,6 @@ model UserLimits {
     createdAt        DateTime @default(now())
     updatedAt        DateTime @updatedAt
 
-    // Relations
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -112,7 +114,6 @@ model CvArchive {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    // Relations
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     cvs  Cv[]
 }
@@ -132,31 +133,39 @@ model Cv {
     createdAt     DateTime       @default(now())
     updatedAt     DateTime       @updatedAt
 
-    // Relations
     archive CvArchive @relation(fields: [archiveId], references: [id], onDelete: Cascade)
 }
 
 model JobListing {
     id          String   @id @default(uuid())
+    userId      String
     position    String
     department  String?
     description String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Policy {
     id        String   @id @default(uuid())
+    userId    String
     name      String
     content   String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Instruction {
     id        String   @id @default(uuid())
     name      String
+    userId    String
     content   String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
