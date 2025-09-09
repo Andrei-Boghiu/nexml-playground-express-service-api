@@ -5,15 +5,15 @@ export default async function getArchiveByIdController(req: Request, res: Respon
   const userId = req.user.id;
   const { id } = req.params;
 
-  const cvArchive = await prisma.cvArchive.findFirst({
+  const archive = await prisma.resumeArchive.findFirst({
     where: { id, userId },
     omit: { userId: true },
   });
 
-  if (!cvArchive)
+  if (!archive)
     return res.status(404).json({
       error: "Archive not found",
     });
 
-  return res.status(200).json(cvArchive);
+  return res.status(200).json(archive);
 }

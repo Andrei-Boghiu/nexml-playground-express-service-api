@@ -5,7 +5,7 @@ export default async function deleteArchiveController(req: Request, res: Respons
   const userId = req.user.id;
   const { id } = req.params;
 
-  await prisma.cvArchive.delete({
+  await prisma.resumeArchive.delete({
     where: { id, userId },
   });
 

@@ -6,7 +6,7 @@ export default async function createArchiveController(req: Request, res: Respons
   const userInput = createArchiveSchema.parse(req.body);
   const userId = req.user.id;
 
-  const Archive = await prisma.cvArchive.create({
+  const Archive = await prisma.resumeArchive.create({
     data: { userId, ...userInput },
     omit: { userId: true },
   });

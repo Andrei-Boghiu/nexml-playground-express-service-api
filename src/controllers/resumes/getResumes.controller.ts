@@ -3,25 +3,24 @@ import prisma from "../../prisma/prisma.config";
 import { getPaginationParams } from "../../utils/pagination.util";
 import type { Prisma } from "@prisma/client";
 
-export default async function getArchivesController(req: Request, res: Response) {
-  const userId = req.user.id;
+export default async function getResumesController(req: Request, res: Response) {
+  const { archiveId } = req.params;
 
   const pageStr = typeof req.query.page === "string" ? req.query.page : undefined;
   const limitStr = typeof req.query.limit === "string" ? req.query.limit : undefined;
 
   const { page, limit, skip } = getPaginationParams(pageStr, limitStr);
 
-  const where: Prisma.ResumeArchiveWhereInput = { userId };
+  const where: Prisma.ResumeWhereInput = { archiveId };
 
   const [data, total] = await Promise.all([
-    prisma.resumeArchive.findMany({
+    prisma.resume.findMany({
       where,
       orderBy: { createdAt: "desc" },
-      omit: { userId: true },
       skip,
       take: limit,
     }),
-    prisma.resumeArchive.count({
+    prisma.resume.count({
       where,
     }),
   ]);
