@@ -122,7 +122,8 @@ model ResumeArchive {
 model Resume {
     id            String         @id @default(uuid())
     archiveId     String
-    fileUrl       String
+    fileName      String
+    s3Key         String
     state         ResumeState    @default(NOT_ANALYZED)
     candidateName String?
     qualification Qualification?
