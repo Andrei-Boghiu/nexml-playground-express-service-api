@@ -7,10 +7,10 @@ export default async function updateArchiveController(req: Request, res: Respons
   const userId = req.user.id;
   const { id } = req.params;
 
-  const cvArchive = await prisma.cvArchive.update({
+  const archive = await prisma.resumeArchive.update({
     where: { id, userId },
     data: userInput,
   });
 
-  return res.status(200).json(cvArchive);
+  return res.status(200).json(archive);
 }
