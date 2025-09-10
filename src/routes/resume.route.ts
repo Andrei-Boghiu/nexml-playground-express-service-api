@@ -7,16 +7,17 @@ import updateResumeController from "../controllers/resumes/updateResume.controll
 import deleteResumeController from "../controllers/resumes/deleteResume.controller";
 
 import authMiddleware from "../middlewares/auth.middleware";
+import archiveAccessControl from "../middlewares/archiveAccessControl.middleware";
 
 const router = Router();
 
 router.use(authMiddleware);
 
-router.get("/:archiveId", getResumesController);
-router.get("/:archiveId/:id", getResumeByIdController);
+router.get("/:archiveId", archiveAccessControl, getResumesController);
+router.get("/:archiveId/:id", archiveAccessControl, getResumeByIdController);
 
-router.post("/:archiveId", createResumeController);
-router.patch("/:archiveId/:id", updateResumeController);
-router.delete("/:archiveId/:id", deleteResumeController);
+router.post("/:archiveId", archiveAccessControl, createResumeController);
+router.patch("/:archiveId/:id", archiveAccessControl, updateResumeController);
+router.delete("/:archiveId/:id", archiveAccessControl, deleteResumeController);
 
 export default router;
