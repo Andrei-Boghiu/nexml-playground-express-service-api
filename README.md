@@ -14,12 +14,12 @@ This service provides JSON-based endpoints to manage users, CV archives, job lis
 - **Configurable User Limits** – Control user-specific quotas (archives, CVs, policies, etc.).
 - **Prisma ORM with PostgreSQL** – Type-safe database layer.
 - **Robust Middleware** – Helmet, CORS, and rate-limiting for production-grade security.
+- **improved user experience** - By something really cool.
 
 ---
 
 ## **Tech Stack**
 
-- **Runtime:** Node.js
 - **Framework:** Express
 - **Database:** PostgreSQL (via Prisma ORM)
 - **Language:** TypeScript (compiled to CommonJS)
