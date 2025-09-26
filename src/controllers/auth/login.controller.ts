@@ -22,7 +22,7 @@ export default async function loginController(req: Request, res: Response) {
     const randomMs = Math.floor(Math.random() * (500 - 10 + 1)) + 100;
     await new Promise((resolve) => setTimeout(resolve, randomMs));
 
-    return res.status(401).json({ error: "Invalid email or password" });
+    return res.status(403).json({ error: "Invalid email or password" });
   }
 
   const { accessToken, refreshToken } = await loginService(user);

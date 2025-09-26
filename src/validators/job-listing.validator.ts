@@ -1,12 +1,14 @@
 import { z } from "zod";
 
-export const createJobListingSchema = z
+export const jobListingSchema = z
   .object({
-    position: z.string().min(1, "Position is required"),
-    department: z.string().optional(),
-    description: z.string().min(1, "Description is required"),
+    id: z.uuidv4(),
+    title: z.string().min(1, "Title is required"),
+    content: z.string().min(1, "Content is required"),
   })
   .strict();
+
+export const createJobListingSchema = jobListingSchema.omit({ id: true });
 
 export const updateJobListingSchema = createJobListingSchema
   .strict()

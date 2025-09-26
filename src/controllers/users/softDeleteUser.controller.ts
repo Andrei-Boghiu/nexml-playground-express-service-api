@@ -8,7 +8,8 @@ export default async function softDeleteUserController(req: Request, res: Respon
     where: { id: userId },
     data: {
       deletedAt: new Date(), // soft delete
-      organization: null,
+      companyName: null,
+      companyType: null,
       firstName: null,
       lastName: null,
       middleName: null,

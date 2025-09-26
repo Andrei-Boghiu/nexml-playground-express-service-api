@@ -1,11 +1,14 @@
 import { z } from "zod";
 
-export const createInstructionSchema = z
+export const instructionSchema = z
   .object({
-    name: z.string().min(1, "Name is required"),
+    id: z.uuidv4(),
+    title: z.string().min(1, "Title is required"),
     content: z.string().min(1, "Content is required"),
   })
   .strict();
+
+export const createInstructionSchema = instructionSchema.omit({ id: true });
 
 export const updateInstructionSchema = createInstructionSchema
   .strict()

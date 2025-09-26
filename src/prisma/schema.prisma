@@ -1,7 +1,6 @@
 // ============================================
 // PLAYGROUND DATABASE SCHEMA (Prisma)
 // ============================================
-
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
@@ -14,7 +13,6 @@ generator client {
 // ============================================
 // ENUMS
 // ============================================
-
 enum UserRole {
     USER
     ADMIN
@@ -29,7 +27,7 @@ enum ResumeState {
     REJECTED
 }
 
-enum Qualification {
+enum QualificationStatus {
     UNDER_QUALIFIED
     QUALIFIED
     OVERQUALIFIED
@@ -38,8 +36,6 @@ enum Qualification {
 // ============================================
 // MODELS
 // ============================================
-
-// USERS: Soft delete enabled via `deletedAt`
 model User {
     id           String    @id @default(uuid())
     email        String    @unique
@@ -47,15 +43,15 @@ model User {
     firstName    String?
     middleName   String?
     lastName     String?
-    organization String?
+    companyName  String?
+    companyType  String?
     accessReason String?
     accessStatus Boolean   @default(true)
     role         UserRole  @default(USER)
     createdAt    DateTime  @default(now())
     updatedAt    DateTime  @updatedAt
-    deletedAt    DateTime? // NULL = active
+    deletedAt    DateTime?
 
-    // Relations
     Logs          Log[]
     RefreshTokens RefreshToken[]
     Limits        UserLimits?
@@ -105,11 +101,10 @@ model UserLimits {
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// Resume ARCHIVES: Collection of Resumes per user
 model ResumeArchive {
     id          String   @id @default(uuid())
     userId      String
-    name        String
+    title       String
     description String?
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
@@ -118,32 +113,31 @@ model ResumeArchive {
     Resumes Resume[]
 }
 
-// ResumeS: Individual Resumes analyzed by AI
 model Resume {
-    id            String         @id @default(uuid())
-    archiveId     String
-    fileName      String
-    s3Key         String
-    state         ResumeState    @default(NOT_ANALYZED)
-    candidateName String?
-    qualification Qualification?
-    score         Int?           @db.Integer
-    reasoning     String?
-    ai_model      String?
-    createdAt     DateTime       @default(now())
-    updatedAt     DateTime       @updatedAt
+    id                  String               @id @default(uuid())
+    archiveId           String
+    filename            String
+    s3Key               String
+    state               ResumeState          @default(NOT_ANALYZED)
+    candidateName       String?
+    qualificationStatus QualificationStatus?
+    score               Int?                 @db.Integer
+    reasoning           String?
+    aiModel             String?
+    hired               Boolean?
+    createdAt           DateTime             @default(now())
+    updatedAt           DateTime             @updatedAt
 
     archive ResumeArchive @relation(fields: [archiveId], references: [id], onDelete: Cascade)
 }
 
 model JobListing {
-    id          String   @id @default(uuid())
-    userId      String
-    position    String
-    department  String?
-    description String
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    id        String   @id @default(uuid())
+    userId    String
+    title     String
+    content   String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -151,7 +145,7 @@ model JobListing {
 model Policy {
     id        String   @id @default(uuid())
     userId    String
-    name      String
+    title     String
     content   String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -161,8 +155,8 @@ model Policy {
 
 model Instruction {
     id        String   @id @default(uuid())
-    name      String
     userId    String
+    title     String
     content   String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

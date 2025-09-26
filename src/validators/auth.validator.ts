@@ -7,7 +7,8 @@ export const registerSchema = z
     firstName: z.string().optional().nullable(),
     middleName: z.string().optional().nullable(),
     lastName: z.string().optional().nullable(),
-    organization: z.string().optional().nullable(),
+    companyName: z.string().optional().nullable(),
+    companyType: z.string().optional().nullable(),
     accessReason: z.string().optional().nullable(),
   })
   .strict();

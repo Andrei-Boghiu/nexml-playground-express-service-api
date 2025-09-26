@@ -14,9 +14,6 @@
     "url": "https://github.com/Andrei-Boghiu/nexml-playground-express-service-api"
   },
   "main": "build/index.js",
-  "prisma": {
-    "schema": "src/prisma/schema.prisma"
-  },
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
