@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 import { logoutSchema } from "../../validators/auth.validator";
 
 export default async function logoutController(req: Request, res: Response) {

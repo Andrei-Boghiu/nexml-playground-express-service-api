@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 import { updateResumeSchema } from "../../validators/resume.validator";
 
 export default async function updateResumeController(req: Request, res: Response) {

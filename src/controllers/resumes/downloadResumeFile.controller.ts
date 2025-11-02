@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 import s3Client, { bucketName } from "../../aws/s3.config";
 import stream from "stream";
 import { promisify } from "util";

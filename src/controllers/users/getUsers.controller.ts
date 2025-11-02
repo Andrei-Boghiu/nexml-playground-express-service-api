@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import type { Prisma } from "@prisma/client";
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 import { getPaginationParams } from "../../utils/pagination.util";
 
 export default async function getUsersController(req: Request, res: Response) {

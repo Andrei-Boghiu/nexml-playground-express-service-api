@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 import bcrypt from "bcrypt";
 import { loginSchema } from "../../validators/auth.validator";
 import { DUMMY_HASH } from "../../configs/auth.config";

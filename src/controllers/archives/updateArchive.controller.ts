@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 import { updateArchiveSchema } from "../../validators/archive.validator";
 
 export default async function updateArchiveController(req: Request, res: Response) {

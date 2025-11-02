@@ -1,4 +1,4 @@
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN } from "../../configs/auth.config";
 import { JWT_SECRET } from "../../configs/env.config";
