@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "../../../generated/prisma_client";
 import prisma from "../../prisma/prisma.client";
 import { getPaginationParams } from "../../utils/pagination.util";
 

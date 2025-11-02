@@ -1,0 +1,19 @@
+services:
+  server:
+    image: node:slim
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    command: >
+      bash -c "
+      apt-get update -y && 
+      apt-get install -y openssl && 
+      npm install && 
+      npm run prisma:prod &&
+      npm run dev
+      "
+    restart: unless-stopped
+    tty: true
+    stdin_open: true

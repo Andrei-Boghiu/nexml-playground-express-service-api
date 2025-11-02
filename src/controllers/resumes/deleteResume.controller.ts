@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "../../../generated/prisma_client";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import prisma from "../../prisma/prisma.client";
 import s3Client, { bucketName } from "../../aws/s3.config";

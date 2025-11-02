@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import prisma from "../../prisma/prisma.client";
 import { getPaginationParams } from "../../utils/pagination.util";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "../../../generated/prisma_client";
 
 export default async function getJobListingsController(req: Request, res: Response) {
   const userId = req.user.id;
