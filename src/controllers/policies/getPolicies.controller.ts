@@ -8,10 +8,15 @@ export default async function getPoliciesController(req: Request, res: Response)
 
   const pageStr = typeof req.query.page === "string" ? req.query.page : undefined;
   const limitStr = typeof req.query.limit === "string" ? req.query.limit : undefined;
+  const searchStr = typeof req.query.search === "string" ? req.query.search : undefined;
 
   const { page, limit, skip } = getPaginationParams(pageStr, limitStr);
 
   const where: Prisma.PolicyWhereInput = { userId };
+
+  if (Boolean(searchStr)) {
+    where.title = { contains: searchStr, mode: "insensitive" };
+  }
 
   const [data, total] = await Promise.all([
     prisma.policy.findMany({

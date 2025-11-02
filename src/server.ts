@@ -13,6 +13,7 @@ import resumeRoutes from "./routes/resume.route";
 
 import rateLimiter from "./middlewares/rateLimiter.middleware";
 import errorHandler from "./middlewares/errorHandler.middleware";
+import fakeLoader from "./middlewares/fakeLoader.middleware";
 import loggerMiddleware from "./middlewares/logger.middleware";
 
 import corsConfig from "./configs/cors.config";
@@ -26,6 +27,7 @@ app.use(loggerMiddleware);
 app.use(cors(corsConfig));
 app.use(helmet());
 app.use(express.json());
+app.use(fakeLoader);
 
 // routes
 app.use("/api/check", _systemRoutes);

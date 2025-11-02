@@ -15,7 +15,7 @@ export default async function createResumeController(req: Request, res: Response
   if (!file || !file?.originalname) return res.status(400).json({ error: fileBadRequest });
 
   const fileExt = path.extname(file.originalname);
-  const fileName = sanitizeFileName(file.originalname);
+  const filename = sanitizeFileName(file.originalname);
   const randomKey = crypto.randomUUID(); // unique key
   const s3Key = `resumes/${randomKey}${fileExt}`;
 
@@ -34,7 +34,7 @@ export default async function createResumeController(req: Request, res: Response
 
   try {
     var resume = await prisma.resume.create({
-      data: { archiveId, s3Key, fileName },
+      data: { archiveId, s3Key, filename },
     });
   } catch {
     // Rollback: delete uploaded file

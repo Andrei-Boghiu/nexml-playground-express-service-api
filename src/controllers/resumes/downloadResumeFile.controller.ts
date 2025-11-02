@@ -19,7 +19,7 @@ export default async function downloadResumeFileController(req: Request, res: Re
     return res.status(500).json({ error: "Failed to fetch file from storage." });
   }
 
-  res.setHeader("Content-Disposition", `attachment; filename="${resume.fileName}"`);
+  res.setHeader("Content-Disposition", `attachment; filename="${resume.filename}"`);
   res.setHeader("Content-Type", s3Object.ContentType ?? "application/octet-stream");
 
   // @ts-ignore: Body is a Readable stream
