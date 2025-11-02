@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 
 export default async function getUserByIdController(req: Request, res: Response) {
   const { id } = req.params;

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 import { updateJobListingSchema } from "../../validators/job-listing.validator";
 
 export default async function updateJobListingController(req: Request, res: Response) {

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 import { createInstructionSchema } from "../../validators/instruction.validator";
 
 export default async function createInstructionController(req: Request, res: Response) {

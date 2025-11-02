@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import prisma from "../../prisma/prisma.config";
+import prisma from "../../prisma/prisma.client";
 import { updatePolicySchema } from "../../validators/policy.validator";
 
 export default async function updatePolicyController(req: Request, res: Response) {

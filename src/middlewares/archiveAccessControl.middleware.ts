@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import prisma from "../prisma/prisma.config";
+import prisma from "../prisma/prisma.client";
 
 export default async function archiveAccessControlMiddleware(req: Request, res: Response, next: NextFunction) {
   const userId = req.user.id;
