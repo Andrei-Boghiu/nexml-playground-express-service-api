@@ -1,0 +1,39 @@
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Build artifacts
+build
+dist
+coverage
+
+# TypeScript
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.development
+.env.production
+.env.example
+
+# Prisma
+src/prisma/dev.db
+src/prisma/*.sqlite
+src/prisma/migrations
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode
+.idea
